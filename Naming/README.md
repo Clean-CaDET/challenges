@@ -9,8 +9,8 @@ Consider the starting code in Doctor.cs:
 ```csharp
 public class DoctorInfo
 {
-    public int Id {get;}
-    public ISet<Certificate> Certificates {get;}
+    public int Id {get; set;}
+    public ISet<Certificate> Certificates {get; set;}
 
     public bool HasCertificates(List<Certificate> certificateSet)
     {
