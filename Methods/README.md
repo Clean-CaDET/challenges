@@ -162,7 +162,7 @@ This metric checker ensures that the `IsAvailable` method is not overly complex.
 - Metric name: Cyclomatic complexity
 - Value threshold: 1, 6
 ```
-A possible side-effect of this restriction, which we observed in the students' submissions, is to create many micro-functions that do not encapsulate any meaningful logic but still manage to reduce the cyclomatic complexity of methods. We subsequently introduced another basic metric checker to ensure that the `ScheduleService` class does not have too many methods:
+A possible side-effect of this restriction, which we observed in the students' submissions, is the creation of many micro-functions that do not encapsulate any meaningful logic but still manage to reduce the cyclomatic complexity of methods. We subsequently introduced another basic metric checker to ensure that the `ScheduleService` class does not have too many methods:
 ```
 - Code snippet id: Methods.ScheduleService
 - Metric name: Number of methods
@@ -170,7 +170,7 @@ A possible side-effect of this restriction, which we observed in the students' s
 ```
 
 ## 4. Issue detector limitations
-The listed maintainability issue detectors do not prevent the student from assigning meaningless names to the classes (covered by the _meaningful names_ unit). Furthermore, the listed metric checkers cannot prevent all odd submissions with maintainability issues. For example, there is nothing stopping the student from submitting the following code:
+The listed maintainability issue detectors do not prevent the student from assigning meaningless names to the classes (covered by the _meaningful names_ unit). Furthermore, the listed metric checkers cannot prevent all odd submissions with maintainability issues. For example, nothing is stopping the student from submitting the following code:
 ```csharp
 public bool IsAvailable(Doctor doctor, Operation operation)
 {
