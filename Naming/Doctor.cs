@@ -7,8 +7,8 @@ namespace Naming;
 /// </summary>
 public class DoctorInfo
 {
-    public int Id {get;}
-    public ISet<Certificate> Certificates {get;}
+    public int Id {get; set;}
+    public ISet<Certificate> Certificates {get; set;}
 
     public bool HasCertificates(List<Certificate> certificateSet)
     {
@@ -22,7 +22,7 @@ public class DoctorInfo
 
 public class Certificate
 {
-    public string Name;
+    public string Name {get; set;}
 
     public Certificate(string name)
     {
