@@ -10,7 +10,14 @@ The repository has three maintainability challenges. Each consists of the starti
 
 Apart from the challenge description, students wouldn't receive the solution or maintainability issue detectors specification, unless the goal was to present a worked example.
 
-What follows is a list of useful links for the ITS implementation and the implementation of its plugin for Visual Studio Code.
+The challenges are grouped around three distinct code maintainability units. They are, in order of complexity:
+
+1. Challenge for removing noise words to produce meaningful names ([link](https://github.com/Clean-CaDET/challenges/tree/master/Naming)),
+2. Challenge for extracting complex logic to produce maintainable functions ([link](https://github.com/Clean-CaDET/challenges/tree/master/Methods)), and
+3. Challenge for creating a class with a single responsibility to produce maintainable classes ([link](https://github.com/Clean-CaDET/challenges/tree/master/Classes)).
+
+## Code Maintainability ITS
+What follows is a list of useful links for our ITS code and documentation repositories.
 
 | Resource	| Summary	| Link
 | --------- | ------- | ------- |
