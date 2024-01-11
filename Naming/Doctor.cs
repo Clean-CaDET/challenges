@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Naming.Noise
+namespace Naming
 {
     /// <summary>
     /// ID izazova je dostupan na web prikazu.

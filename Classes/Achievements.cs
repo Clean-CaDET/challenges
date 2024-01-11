@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Classes.SRP.Achievements
+namespace Classes
 {
     /// <summary>
     /// ID izazova je dostupan na web prikazu.
@@ -16,7 +16,7 @@ namespace Classes.SRP.Achievements
         {
             Achievement newAchievement = LoadAchievement(newAchivemenetName);
             if (newAchievement == null) throw new Exception("New achievement does not exist in the registry.");
-            
+
             List<Achievement> unlockedAchievements = LoadUserAchievements(userId, newAchievement);
 
             CheckIfPrerequisitesUnlocked(newAchievement, unlockedAchievements);
@@ -36,7 +36,8 @@ namespace Classes.SRP.Achievements
             //Check if user has prerequisite achievements unlocked
             foreach (var prerequisiteAchievement in newAchievement.PrerequisiteAchievementNames)
             {
-                if(!AchievementIsUnlocked(prerequisiteAchievement, unlockedAchievements)) {
+                if (!AchievementIsUnlocked(prerequisiteAchievement, unlockedAchievements))
+                {
                     throw new InvalidOperationException("Prerequisite achievement " + prerequisiteAchievement + " not completed.");
                 }
             }

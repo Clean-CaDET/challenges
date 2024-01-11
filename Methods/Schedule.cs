@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Methods.Simple
+namespace Methods
 {
     /// <summary>
     /// ID izazova je dostupan na web prikazu.
