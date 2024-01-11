@@ -219,141 +219,24 @@ public class Achievement
 }
 ```
 
-
-
-
-
-Most of the complexity in this code stems from the several levels of nesting. A common heuristic when extracting functions is to observe any comments or whitespace the programmer left in the code, as it often signals a region of cohesive logic. The code above can be transformed by extracting two methods for the two clearly defined regions of the code. The result of these refactorings is below:
-
-```csharp
-public bool IsAvailable(Doctor doctor, Operation operation)
-{
-    if (IsOnVacation(doctor, operation)) return false;
-    if (IsInOtherOperation(doctor, operation)) return false;
-    return true;
-}
-
-private bool IsOnVacation(Doctor doctor, Operation operation)
-{
-    if (doctor.VacationSlots != null)
-    {
-        foreach (VacationSlot vacation in doctor.VacationSlots)
-        {
-            DateTime vacationStart = vacation.StartTime;
-            DateTime vacationEnd = vacation.EndTime;
-
-            if (operation.StartTime > operation.EndTime) throw new InvalidOperationException("Invalid operation time frame.");
-            //---s1---| vacationStart |---e1---s2---e2---s3---| vacationEnd |---e3---
-            if (operation.StartTime <= vacationEnd && operation.EndTime >= vacationStart)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-private bool IsInOtherOperation(Doctor doctor, Operation operation)
-{
-    if (doctor.Operations != null)
-    {
-        foreach (Operation op in doctor.Operations)
-        {
-            DateTime opStart = op.StartTime;
-            DateTime opEnd = op.EndTime;
-
-            if (operation.StartTime > operation.EndTime) throw new InvalidOperationException("Invalid operation time frame.");
-            //---s1---| oldOpStart |---e1---s2---e2---s3---| oldOpEnd |---e3---
-            if (operation.StartTime <= opEnd && operation.EndTime >= opStart)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-```
-
-The two new functions are still modestly complex. What's worse is that they have a significant portion of duplicate code. Another transformation that would resolve this maintainability issue is to extract the DateTime comparison logic into a shared function. The resulting code is below:
-
-```csharp
-public bool IsAvailable(Doctor doctor, Operation operation)
-{
-    if (IsOnVacation(doctor, operation)) return false;
-    if (IsInOtherOperation(doctor, operation)) return false;
-    return true;
-}
-
-private bool IsOnVacation(Doctor doctor, Operation operation)
-{
-    if (doctor.VacationSlots != null)
-    {
-        foreach (VacationSlot vacation in doctor.VacationSlots)
-        {
-            DateTime newStart = vacation.StartTime;
-            DateTime newEnd = vacation.EndTime;
-
-            if (DoesTimeOverlap(operation, newEnd, newStart)) return true;
-        }
-    }
-
-    return false;
-}
-
-private bool IsInOtherOperation(Doctor doctor, Operation operation)
-{
-    if (doctor.Operations != null)
-    {
-        foreach (Operation op in doctor.Operations)
-        {
-            DateTime newStart = op.StartTime;
-            DateTime newEnd = op.EndTime;
-
-            if (DoesTimeOverlap(operation, newEnd, newStart)) return true;
-        }
-    }
-
-    return false;
-}
-
-private bool DoesTimeOverlap(Operation operation, DateTime start, DateTime end)
-{
-    if (operation.StartTime > operation.EndTime) throw new InvalidOperationException("Invalid operation time frame.");
-    if (operation.StartTime <= end && operation.EndTime >= start) return true;
-    return false;
-}
-```
-
 ## 3. Maintainability issue detectors
-To automatically identify if the student's code contains overly complex methods, we can rely on complexity metrics like cyclomatic complexity. We define the following _basic metric checker_:
+We define the following _basic metric checkers_ to analyze the metrics of the AchievementService class:
 ```
-- Code snippet id: Methods.ScheduleService.IsAvailable
-- Metric name: Cyclomatic complexity
-- Value threshold: 1, 4
+- Code snippet id: Classes.AchievementService
+- Metric name: Weighted methods per class
+- Value threshold: 1, 5
+
+- Code snippet id: Classes.AchievementService
+- Metric name: Afferent coupling
+- Value threshold: 2, 3
+
+- Code snippet id: Classes.AchievementService
+- Metric name: Number of methods defined
+- Value threshold: 1, 2
 ```
-This metric checker ensures that the `IsAvailable` method is not overly complex. However, students can extract all the logic into a separate method, thus bypassing the `IsAvailable` complexity check while still producing code with a maintainability issue. We need to define an additional basic metric checker that checks all the functions in the submission. It has the following configuration:
-```
-- Code snippet id: ALL_CODE
-- Metric name: Cyclomatic complexity
-- Value threshold: 1, 6
-```
-A possible side-effect of this restriction, which we observed in the students' submissions, is to create many micro-functions that do not encapsulate any meaningful logic but still manage to reduce the cyclomatic complexity of methods. We subsequently introduced another basic metric checker to ensure that the `ScheduleService` class does not have too many methods:
-```
-- Code snippet id: Methods.ScheduleService
-- Metric name: Number of methods
-- Value threshold: 2, 4
-```
+The first metric checker ensures that the `AchievementService` class has low complexity (the WMC metric is often calculated as the sum of the cyclomatic complexities of individual methods). The second metric checker checks if the class interacts with a sufficient number of other classes (our ideal solution includes the `Achievement`, the `AchievementCollection`, and the `AchievementFileRepository`). The final metric checker examines if the class has one or two methods, where we expect the other methods to be moved to other classes.
 
 ## 4. Issue detector limitations
-The listed maintainability issue detectors do not prevent the student from assigning meaningless names to the classes (covered by the _meaningful names_ unit). Furthermore, the listed metric checkers cannot prevent all odd submissions with maintainability issues. For example, there is nothing stopping the student from submitting the following code:
-```csharp
-public bool IsAvailable(Doctor doctor, Operation operation)
-{
-    if (IsOnVacation(doctor, operation) && IsOnVacation(doctor, operation)) return false;
-    if (IsInOtherOperation(doctor, operation)) return false;
-    return true;
-}
+This example showcases another limitation of our maintainability issue detectors. The `code snippet id` either applies to all code or a specific class or method (as defined by its signature). Since we do not know the exact name the student will give to the `Repository` class (e.g., `AchievementFileRepository` can be `AchievementRepository`) or the `Domain` class (e.g., `AchievementCollection` can be `AchievementInventory`), we cannot create metric checkers tailored specifically for these code snippets. This limitation stops us, for example, from ensuring that the `Repository` class has the three methods we envision in a good solution to the challenge.
 
-// Other methods
-```
-The previous example shows code that is unlikely to occur in the students' solutions. However, our maintainability issue detectors will not register that this solution has any issues, highlighting the limitation of structural metrics.
+One way to bypass this limitation is to give specific instructions to the students on which classes must appear in their solution (or to possibly integrate them into the starting code).
