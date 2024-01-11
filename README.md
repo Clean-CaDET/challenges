@@ -1,7 +1,14 @@
 # Supplementary Maintainability Challenges
 This repository hosts several maintainability challenges that can be processed by the Clean CaDET platform. It is referenced in the paper _An Intelligent Tutoring System to Support Code Maintainability Skill Development_, submitted to _IEEE Transactions on Learning Technologies_ for revision.
 
-The repository has three maintainability challenges. Each consists of the starting code (in the .CS file) and a README.md that defines the challenge's task, lists the used maintainability issue detectors, and comments on the possible solution for the challenge. Apart from the task description, students wouldn't receive the specification of the maintainability issue detectors or the possible solutions, unless the goal was to present a worked example.
+The repository has three maintainability challenges. Each consists of the starting code (in the .CS file) and a README.md that includes:
+
+1. The description of the challenge,
+2. A description of the problem solving approach for solving the challenge, which ends with a possible solution,
+3. The used maintainability issue detectors, and
+4. A discussion of the limitations of the concrete maintainability issue detectors to constrain the solution space.
+
+Apart from the challenge description, students wouldn't receive the solution or maintainability issue detectors specification, unless the goal was to present a worked example.
 
 What follows is a list of useful links for the ITS implementation and the implementation of its plugin for Visual Studio Code.
 
