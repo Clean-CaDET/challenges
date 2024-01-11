@@ -1,5 +1,5 @@
-# An Intelligent Tutoring System to Support Code Maintainability Skill Development - Supplementary Assessment Items
-This repository hosts several maintainability challenges that can be processed by the Clean CaDET platform. It is referenced in the paper _An Intelligent Tutoring System to Support Code Maintainability Skill Development_, submitted to IEEE Transactions on Learning Technologies for revision.
+# An Intelligent Tutoring System to Support Code Maintainability Skill Development - Supplementary Maintainability Challenges
+This repository hosts several maintainability challenges that can be processed by the Clean CaDET platform. It is referenced in the paper _An Intelligent Tutoring System to Support Code Maintainability Skill Development_, submitted to _IEEE Transactions on Learning Technologies_ for revision.
 
 The repository has three maintainability challenges. Each consists of the starting code (in the .CS file) and a README.md that defines the challenge's task, lists the used maintainability issue detectors, and comments on the possible solution for the challenge. Apart from the task description, students wouldn't receive the specification of the maintainability issue detectors or the possible solutions, unless the goal was to present a worked example.
 
