@@ -150,40 +150,35 @@ private bool DoesTimeOverlap(Operation operation, DateTime start, DateTime end)
 ```
 
 ## 3. Maintainability issue detectors
-To automatically identify if the noise words are missing from the solution we define the following _banned words checker_:
+To automatically identify if the student's code contains overly complex methods, we can rely on complexity metrics like cyclomatic complexity. We define the following _basic metric checker_:
 ```
--	Code snippet id: Methods.Schedule.IsAvailable
+-	Code snippet id: Methods.ScheduleService.IsAvailable
 -	Metric name: Cyclomatic complexity
 -	Value threshold: 1, 4
 ```
-
-
-Basic Metric Checker:
+This metric checker ensures that the `IsAvailable` method is not overly complex. However, students can extract all the logic into a separate method, thus bypassing the `IsAvailable` complexity check while still producing code with a maintainability issue. We need to define an additional basic metric checker that checks all the functions in the submission. It has the following configuration:
+```
 -	Code snippet id: ALL_CODE
 -	Metric name: Cyclomatic complexity
 -	Value threshold: 1, 6
-Basic Metric Checker:
--	Code snippet id: Methods.Schedule
+```
+A possible side-effect of this restriction, which we observed in the students' submissions, is to create many micro-functions that do not encapsulate any meaningful logic but still manage to reduce the cyclomatic complexity of methods. We subsequently introduced another basic metric checker to ensure that the `ScheduleService` class does not have too many methods:
+```
+-	Code snippet id: Methods.ScheduleService
 -	Metric name: Number of methods
 -	Value threshold: 2, 4
-
+```
 
 ## 4. Issue detector limitations
-The listed maintainability issue detectors do not protect against other meaningless words. For example, there is nothing stopping the student from submitting the following code:
+The listed maintainability issue detectors do not prevent the student from assigning meaningless names to the classes (covered by the _meaningful names_ unit). Furthermore, the listed metric checkers cannot prevent all odd submissions with maintainability issues. For example, there is nothing stopping the student from submitting the following code:
 ```csharp
-public class NotADoctor
+public bool IsAvailable(Doctor doctor, Operation operation)
 {
-    public int IdOrIsIt {get;}
-    public ISet<Certificate> Certificates {get;}
-
-    public bool HasCertificates(List<Certificate> certificateCollection)
-    {
-        foreach (var randomVariableNameHere in certificateCollection)
-        {
-            if (!Certificates.Contains(randomVariableNameHere)) return false;
-        }
-        return true;
-    }
+    if (IsOnVacation(doctor, operation) && IsOnVacation(doctor, operation)) return false;
+    if (IsInOtherOperation(doctor, operation)) return false;
+    return true;
 }
+
+// Other methods
 ```
-So long as the satisfies the identified issue detectors, the students can supply various solutions that do not make sense. This example showcases why the maintainability challenge should be used for formative assessment, and not summative assessment.
+The previous example shows code that is unlikely to occur in the students' solutions. However, our maintainability issue detectors will not register that this solution has any issues, highlighting the limitation of structural metrics.
