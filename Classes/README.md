@@ -1,7 +1,7 @@
 # Maintainable Classes; Write Classes that have a Single Responsibility
 
 ## 1. Challenge description
-Our general goal is to create classes that have a single responsibility, thus adhering to the Single Responsibility Principle. We first need to understand the class's structural stereotype and infer its semantic meaning. We can then analyze the class's structural cohesion and coupling to determine if its suitable for the class's structural stereotype, as well as its semantic cohesion to ensure it matches the class's semantic meaning. During this process we identify areas for improvement and apply _extract method_, _move method_, or _extract class_ refactorings to increase the class's focus. Analyze the [AchievementService class](https://github.com/Clean-CaDET/challenges/blob/master/Classes/Achievements.cs) and ensure it satisfies the single responsibility principle.
+Our general goal is to create classes that have a single responsibility, thus adhering to the Single Responsibility Principle. First, we must understand the class's structural stereotype and infer its semantic meaning. We can then analyze the class's structural cohesion and coupling to determine if it is suitable for the class's structural stereotype and its semantic cohesion to ensure it matches the class's semantic meaning. During this process, we identify areas for improvement and apply _extract method_, _move method_, or _extract class_ refactorings to increase the class's focus. Analyze the [AchievementService class](https://github.com/Clean-CaDET/challenges/blob/master/Classes/Achievements.cs) and ensure it satisfies the single responsibility principle.
 
 ## 2. Solving the challenge
 
@@ -92,12 +92,12 @@ public class AchievementService
     }
 }
 ```
-A common convention is to have _service_ objects act as coordinators of the application, calling on the logic of _domain_ objects and _infrastructure_ objects to deliver a response to the client code. The coordinator structural stereotype is characterised by simple logic in its methods, high efferent coupling, and low structural cohesion. By analyzing the starting code, we find low efferent coupling (`AchievementService` is solely coupled to the `Achievement` class) and high complexity in the functions.
+A common convention is to have _service_ objects act as coordinators of the application, calling on the logic of _domain_ objects and _infrastructure_ objects to deliver a response to the client code. The coordinator structural stereotype is characterized by simple logic in its methods, high efferent coupling, and low structural cohesion. By analyzing the starting code, we find low efferent coupling (`AchievementService` is solely coupled to the `Achievement` class) and high complexity in the functions.
 
-By analyzing the functions we find several different responsibilities that go beyond coordination:
+By analyzing the functions, we find several different responsibilities that go beyond coordination:
 
 - `LoadAchievement`, `LoadUserAchievements`, and `SaveAchievement` are methods concerned with data storage, a responsibility typically delegated to `Repository` classes.
-- `CheckIfPrerequisitesUnlocked` and `AchievementIsUnlocked` are methods that encapsulate business logic that define the rules related to the `Achievement` lifecycle. These responsibilities should be delegated to classes modeling the domain, in this case an achievement collection.
+- `CheckIfPrerequisitesUnlocked` and `AchievementIsUnlocked` are methods that encapsulate business logic that define the rules related to the `Achievement` lifecycle. These responsibilities should be delegated to classes modeling the domain, such as an achievement collection.
 
 At least two new classes are needed to encapsulate the responsibilities listed above. Using `extract class`, the students create the following code:
 ```csharp
@@ -237,6 +237,6 @@ We define the following _basic metric checkers_ to analyze the metrics of the Ac
 The first metric checker ensures that the `AchievementService` class has low complexity (the WMC metric is often calculated as the sum of the cyclomatic complexities of individual methods). The second metric checker checks if the class interacts with a sufficient number of other classes (our ideal solution includes the `Achievement`, the `AchievementCollection`, and the `AchievementFileRepository`). The final metric checker examines if the class has one or two methods, where we expect the other methods to be moved to other classes.
 
 ## 4. Issue detector limitations
-This example showcases another limitation of our maintainability issue detectors. The `code snippet id` either applies to all code or a specific class or method (as defined by its signature). Since we do not know the exact name the student will give to the `Repository` class (e.g., `AchievementFileRepository` can be `AchievementRepository`) or the `Domain` class (e.g., `AchievementCollection` can be `AchievementInventory`), we cannot create metric checkers tailored specifically for these code snippets. This limitation stops us, for example, from ensuring that the `Repository` class has the three methods we envision in a good solution to the challenge.
+This example showcases another limitation of our maintainability issue detectors. The `code snippet id` applies either to all code or a specific class or method (as defined by its signature). Since we do not know the exact name the student will give to the `Repository` class (e.g., `AchievementFileRepository` can be `AchievementRepository`) or the `Domain` class (e.g., `AchievementCollection` can be `AchievementInventory`), we cannot create metric checkers tailored specifically for these code snippets. This limitation stops us, for example, from ensuring that the `Repository` class has the three methods we envision as a good solution to the challenge.
 
-One way to bypass this limitation is to give specific instructions to the students on which classes must appear in their solution (or to possibly integrate them into the starting code).
+One way to bypass this limitation is to give specific instructions to the students on which classes must appear in their solution (or to integrate them into the starting code).
