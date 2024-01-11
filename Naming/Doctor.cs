@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Naming;
 
@@ -9,26 +7,24 @@ namespace Naming;
 /// </summary>
 public class DoctorInfo
 {
-  public int Id {get;}
-  public ISet<Certificate> Certificates {get;}
+    public int Id {get;}
+    public ISet<Certificate> Certificates {get;}
 
-  public bool HasCertificates(
-    List<Certificate> certificateSet)
-  {
-    foreach (var c in certificateSet)
+    public bool HasCertificates(List<Certificate> certificateSet)
     {
-      if (!Certificates.Contains(c))
-        return false;
+        foreach (var c in certificateSet)
+        {
+            if (!Certificates.Contains(c)) return false;
+        }
+        return true;
     }
-    return true;
-  }
 }
 
 public class Certificate
 {
     public string Name;
 
-    public Specialization(string name)
+    public Certificate(string name)
     {
         Name = name;
     }
