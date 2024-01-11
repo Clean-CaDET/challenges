@@ -152,21 +152,21 @@ private bool DoesTimeOverlap(Operation operation, DateTime start, DateTime end)
 ## 3. Maintainability issue detectors
 To automatically identify if the student's code contains overly complex methods, we can rely on complexity metrics like cyclomatic complexity. We define the following _basic metric checker_:
 ```
--	Code snippet id: Methods.ScheduleService.IsAvailable
--	Metric name: Cyclomatic complexity
--	Value threshold: 1, 4
+- Code snippet id: Methods.ScheduleService.IsAvailable
+- Metric name: Cyclomatic complexity
+- Value threshold: 1, 4
 ```
 This metric checker ensures that the `IsAvailable` method is not overly complex. However, students can extract all the logic into a separate method, thus bypassing the `IsAvailable` complexity check while still producing code with a maintainability issue. We need to define an additional basic metric checker that checks all the functions in the submission. It has the following configuration:
 ```
--	Code snippet id: ALL_CODE
--	Metric name: Cyclomatic complexity
--	Value threshold: 1, 6
+- Code snippet id: ALL_CODE
+- Metric name: Cyclomatic complexity
+- Value threshold: 1, 6
 ```
 A possible side-effect of this restriction, which we observed in the students' submissions, is to create many micro-functions that do not encapsulate any meaningful logic but still manage to reduce the cyclomatic complexity of methods. We subsequently introduced another basic metric checker to ensure that the `ScheduleService` class does not have too many methods:
 ```
--	Code snippet id: Methods.ScheduleService
--	Metric name: Number of methods
--	Value threshold: 2, 4
+- Code snippet id: Methods.ScheduleService
+- Metric name: Number of methods
+- Value threshold: 2, 4
 ```
 
 ## 4. Issue detector limitations
