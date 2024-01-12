@@ -1,5 +1,5 @@
 # Supplementary Maintainability Challenges
-This repository hosts examples of maintainability challenges for our ITS specialized in code maintainability. It is referenced in the paper _An Intelligent Tutoring System to Support Code Maintainability Skill Development_, submitted to _IEEE Transactions on Learning Technologies_ for revision.
+This repository hosts examples of maintainability challenges for our ITS specialized in code maintainability. It is referenced in the paper _An Intelligent Tutoring System to Support Code Maintainability Skill Development_, submitted to _IEEE Transactions on Learning Technologies_ for consideration.
 
 The repository has three maintainability challenges. Each consists of the starting code (in the .CS file) and a README.md that includes:
 
