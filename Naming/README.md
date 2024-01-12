@@ -47,13 +47,14 @@ To automatically identify if the noise words are missing from the solution we de
 - Code snippet id: ALL_CODE
 - Banned words: info, set, list
 ```
-Apart from the `info` and `set` words, we wish to also catch submissions with the `list` word. The `certificateSet` parameter would stop being misleading if it was named `certificateList`. However, this name also contains a redundant noise word (`list`) and we add that word to the _banned words checker_.
+Apart from the `info` and `set` words, we wish to also catch submissions with the `list` word. The `certificateSet` parameter would stop being misleading if it was named `certificateList`. However, this name also contains a redundant noise word (`list`) and we add that word to the _banned words checker_. When this issue detector fins an issue, the challenge gives the following hint to the learner: _Noise words often repeat the information already present in the variable's type. They also include generic words like "data" that do not introduce new information to the code. Ensure you have located all the identifiers and that none have noise words._
 
 To ensure the student's submission maintains the meaningful words like `Certificates` and `HasCertificates`, we define an additional _required words checker_:
 ```
 - Code snippet id: ALL_CODE
 - Required words: Certificates, HasCertificates
 ```
+When this issue detector fins an issue, the challenge gives the following hint to the learner: _Noise words are often generic and do not add new information to the code. We should be careful not to classify meaningful words that describe a concrete technical or business concept as noise words. Ensure you do not remove the meaningful words from the identifiers in the starting code._
 
 ## 4. Issue detector limitations
 The listed maintainability issue detectors do not protect against other meaningless words. For example, there is nothing stopping the student from submitting the following code:
