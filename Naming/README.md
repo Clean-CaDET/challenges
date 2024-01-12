@@ -73,4 +73,23 @@ public class NotADoctor
     }
 }
 ```
-So long as the satisfies the identified issue detectors, the students can supply various solutions that do not make sense. This example showcases why the maintainability challenge should be used for formative assessment, and not summative assessment.
+The listed code does not contain the banned words and it contains the required words. These issue detectors do not prevent the solution from having odd names (e.g., `IdOrIsIt`). Another, perhaps more serious limitation is showcased in the example below:
+```csharp
+public class Doctor
+{
+    public int Id {get;}
+    public ISet<Certificate> Certificates {get;}
+
+    public bool SillyName(List<Certificate> certificates)
+    {
+        foreach (var HasCertificates in certificates)
+        {
+            if (!Certificates.Contains(HasCertificates)) return false;
+        }
+        return true;
+    }
+}
+```
+The _required words checker_ searches the whole code for the `HasCertificates` identifier. It cannot pinpoint where that name should appear in the code, just that it is located somewhere. The listed submission satisfies the checker despite its maintainability issue. These examples showcase why the current maintainability challenge should be used for formative assessment, not summative assessment.
+
+A more advanced version of our name checkers could be configured to look only at method names of the supplied class by relying on its abstract syntax tree. However, manually configuring such a checker while authoring a maintainability challenge would require more time. Further research is needed to automate this process and create usable authoring controls.
