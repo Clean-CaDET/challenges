@@ -4,7 +4,7 @@
 Our general goal is to create classes that have a single responsibility, thus adhering to the Single Responsibility Principle. First, we must understand the class's structural stereotype and infer its semantic meaning. We can then analyze the class's structural cohesion and coupling to determine if it is suitable for the class's structural stereotype and its semantic cohesion to ensure it matches the class's semantic meaning. During this process, we identify areas for improvement and apply _extract method_, _move method_, or _extract class_ refactorings to increase the class's focus. Analyze the [AchievementService class](https://github.com/Clean-CaDET/challenges/blob/master/Classes/Achievements.cs) and ensure it satisfies the single responsibility principle.
 
 ## 2. Solving the challenge
-To complete the challenge, the student needs to have mastered the following knowledge subcomponents:
+To complete challenges related to this integrative KC, the student needs to have mastered the following knowledge subcomponents:
 
 - _Determine the class’s structural stereotype_,
 - _Analyze and improve structural cohesion_, 
